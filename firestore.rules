@@ -1,0 +1,16 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Bloqueia qualquer tentativa de leitura/escrita vinda de SDKs de cliente (JS, Android, iOS)
+    match /usuarios_autorizados/{document=**} {
+      allow read, write: if false;
+    }
+    
+    // Regra global de segurança (Default Deny)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
